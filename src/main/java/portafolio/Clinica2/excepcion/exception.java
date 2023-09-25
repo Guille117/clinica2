@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 
 @RestControllerAdvice
 public class exception {
@@ -21,6 +22,11 @@ public class exception {
     public ResponseEntity errorValidacion(MethodArgumentNotValidException e){
         var errores = e.getFieldErrors().stream().map(Exc::new).toList();
         return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity errorValidacion2(ValidationException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 

@@ -2,9 +2,7 @@ package portafolio.Clinica2.servicio;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.Supplier;
 
-import javax.naming.NameNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
