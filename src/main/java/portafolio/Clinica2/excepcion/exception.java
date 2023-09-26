@@ -1,5 +1,7 @@
 package portafolio.Clinica2.excepcion;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,6 +30,16 @@ public class exception {
     public ResponseEntity errorValidacion2(ValidationException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity duplicados(SQLIntegrityConstraintViolationException e){
+        return ResponseEntity.unprocessableEntity().body(e.getMessage());
+    }
+
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)     // enum incorrecto
+    public ResponseEntity enumIncorrecto(){
+        return ResponseEntity.badRequest().body("No existe la especialidad seleccionada.");
+    } 
 
 
     private record Exc(String campo, String error) {

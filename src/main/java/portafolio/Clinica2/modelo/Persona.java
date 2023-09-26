@@ -17,8 +17,10 @@ import lombok.Setter;
 public class Persona {
     @NotBlank
     private String nombre;
+    
     @NotBlank
     private String apellido;
+    
     @NotNull
     @Min(value = 0, message = "Edad fuera de rango permitido")
     @Max(value = 100, message = "Edad fuera de rango permitido")

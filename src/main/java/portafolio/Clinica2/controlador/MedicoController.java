@@ -9,37 +9,36 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import portafolio.Clinica2.modelo.Paciente;
+import portafolio.Clinica2.modelo.Medico;
 import portafolio.Clinica2.servicio.IGenericService;
 
 @RestController
-@RequestMapping("/paciente")
-public class PacienteController {
+@RequestMapping("/medico")
+public class MedicoController {
     
     @Autowired
-    private IGenericService<Paciente> gs;
+    private IGenericService<Medico> gs;
 
     @PostMapping
-    public ResponseEntity guardar(@Valid  @RequestBody Paciente p, UriComponentsBuilder ur){
-        gs.Sa(p);
-        URI url = ur.path("/paciente").buildAndExpand(p.getIdPaciente()).toUri();
-        return ResponseEntity.created(url).body(p);
+    public ResponseEntity guardar(@RequestBody @Valid Medico m, UriComponentsBuilder ur){
+        gs.Sa(m);
+        URI url = ur.path("/medico/{id}").buildAndExpand(m.getIdMedico()).toUri();
+        return ResponseEntity.created(url).body(m);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> obtener1(@PathVariable Long id){
+    public ResponseEntity<Medico> obtener1(@PathVariable Long id){
         return ResponseEntity.ok().body(gs.getOne(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Paciente>> obtenerTodos(){
+    public ResponseEntity<List<Medico>> obtenerTodos(){
         return ResponseEntity.ok().body(gs.getAll());
     }
 
@@ -48,4 +47,5 @@ public class PacienteController {
         gs.De(id);
         return ResponseEntity.noContent().build();
     }
+
 }
