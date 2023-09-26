@@ -1,0 +1,1 @@
+alter table especialidad modify column nombre varchar(55) unique;

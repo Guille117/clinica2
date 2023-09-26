@@ -1,15 +1,12 @@
 package portafolio.Clinica2.modelo;
 
-import org.springframework.boot.context.properties.bind.DefaultValue;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import portafolio.Clinica2.Enum.Especialidad;
 
 @Entity
 @Getter @Setter
@@ -43,7 +39,8 @@ public class Medico {
     private String dpi;
     
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "id_Especialidad", referencedColumnName = "idEspecialidad")
     private Especialidad especialidad;
     
 }

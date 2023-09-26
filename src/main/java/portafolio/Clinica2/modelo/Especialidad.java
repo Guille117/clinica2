@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Especialidad {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idEspecialidad;
     
     @NotBlank
     private String nombre;

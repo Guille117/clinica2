@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
-import portafolio.Clinica2.Enum.Especialidad;
+import portafolio.Clinica2.Enum.Especialidad11;
 
 @RestControllerAdvice
 public class exception {
@@ -41,7 +41,7 @@ public class exception {
 
     @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)     // enum incorrecto
     public ResponseEntity enumIncorrecto(org.springframework.http.converter.HttpMessageNotReadableException e){
-        List<Especialidad> especialidades = Arrays.asList(Especialidad.values()); 
+        List<Especialidad11> especialidades = Arrays.asList(Especialidad11.values()); 
         return ResponseEntity.badRequest().body("Especialidad incorrecta." 
                             + "\n Especialidades existentes: \n " 
                             + especialidades
