@@ -40,7 +40,7 @@ public class Medico {
     
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "id_Especialidad", referencedColumnName = "idEspecialidad")
+    @JoinColumn(name = "id_especialidad", referencedColumnName = "idEspecialidad")
     private Especialidad especialidad;
     
 }
