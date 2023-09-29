@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import portafolio.Clinica2.modelo.Paciente;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
+import portafolio.Clinica2.repositorio.IPersonaResponRepository;
 import portafolio.Clinica2.validacion.paciente.ValidarPaciente;
 
 @Service
@@ -17,10 +18,15 @@ public class PacienteService implements IGenericService<Paciente>{
     private IPacienteRepository pr;
     @Autowired
     private List<ValidarPaciente> val;
+    @Autowired
+    private IPersonaResponRepository responsable;
 
     @Override
     public void Sa(Paciente t) {
         val.forEach(v -> v.validar(t));
+        if(t.getPersonaResponsable() != null){
+            responsable.save(t.getPersonaResponsable());
+        }
         pr.save(t);
     }
 

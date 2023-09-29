@@ -1,0 +1,1 @@
+alter table especialidad add column precio double not null;

@@ -1,8 +1,6 @@
 package portafolio.Clinica2.excepcion;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
-import portafolio.Clinica2.Enum.Especialidad11;
 
 @RestControllerAdvice
 public class exception {
@@ -38,15 +35,7 @@ public class exception {
     public ResponseEntity duplicados(SQLIntegrityConstraintViolationException e){
         return ResponseEntity.unprocessableEntity().body(e.getMessage());
     }
-
-    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)     // enum incorrecto
-    public ResponseEntity enumIncorrecto(org.springframework.http.converter.HttpMessageNotReadableException e){
-        List<Especialidad11> especialidades = Arrays.asList(Especialidad11.values()); 
-        return ResponseEntity.badRequest().body("Especialidad incorrecta." 
-                            + "\n Especialidades existentes: \n " 
-                            + especialidades
-                            );
-    } 
+ 
 
     private record Exc(String campo, String error) {
         public Exc(FieldError er){

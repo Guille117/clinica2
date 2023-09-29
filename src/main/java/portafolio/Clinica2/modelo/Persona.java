@@ -25,4 +25,9 @@ public class Persona {
     @Min(value = 0, message = "Edad fuera de rango permitido")
     @Max(value = 100, message = "Edad fuera de rango permitido")
     private Integer edad;
+
+
+    public String nombreCompleto(){
+        return nombre + " " + apellido;
+    }
 }
