@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import portafolio.Clinica2.dto.DtoEspecialidad;
 import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.repositorio.IEspecialidadRepository;
 
 @Service
-public class EspecialidadService implements IGenericService<Especialidad>{
+public class EspecialidadService implements IGenericService<Especialidad, DtoEspecialidad>{
 
     @Autowired
     private IEspecialidadRepository er;
@@ -31,7 +32,7 @@ public class EspecialidadService implements IGenericService<Especialidad>{
     }
 
     @Override
-    public void Up(Long id) {
+    public void Up(DtoEspecialidad dtoEsp) {
     }
 
     @Override

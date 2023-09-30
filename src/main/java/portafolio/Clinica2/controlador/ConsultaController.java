@@ -18,7 +18,6 @@ import jakarta.validation.Valid;
 import portafolio.Clinica2.dto.DTOconsulta;
 import portafolio.Clinica2.modelo.Consulta;
 import portafolio.Clinica2.servicio.IConsultaService;
-import portafolio.Clinica2.servicio.IGenericService;
 
 @RestController
 @RequestMapping("/consulta")

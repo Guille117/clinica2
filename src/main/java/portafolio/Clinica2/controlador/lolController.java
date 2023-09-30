@@ -1,8 +1,5 @@
 package portafolio.Clinica2.controlador;
 
-import java.net.URI;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,40 +9,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import portafolio.Clinica2.dto.DtoMedico;
-import portafolio.Clinica2.modelo.Medico;
+import portafolio.Clinica2.dto.DtoMedicamentoVendido;
+import portafolio.Clinica2.modelo.MedicamentoVendido;
 import portafolio.Clinica2.servicio.IGenericService;
 
 @RestController
-@RequestMapping("/medico")
-public class MedicoController {
-    
+@RequestMapping("/venta")
+public class lolController {
     @Autowired
-    private IGenericService<Medico, DtoMedico> gs;
+    private IGenericService<MedicamentoVendido, DtoMedicamentoVendido> nose;
 
     @PostMapping
-    public ResponseEntity guardar(@RequestBody @Valid Medico m, UriComponentsBuilder ur){
-        gs.Sa(m);
-        URI url = ur.path("/medico/{id}").buildAndExpand(m.getIdMedico()).toUri();
-        return ResponseEntity.created(url).body(m);
+    public ResponseEntity guardar(@Valid @RequestBody MedicamentoVendido mv){
+        nose.Sa(mv);
+        return ResponseEntity.ok().body(mv);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medico> obtener1(@PathVariable Long id){
-        return ResponseEntity.ok().body(gs.getOne(id));
+    public ResponseEntity ob1(@PathVariable Long id){
+        return ResponseEntity.ok().body(nose.getOne(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Medico>> obtenerTodos(){
-        return ResponseEntity.ok().body(gs.getAll());
+    public ResponseEntity todos(){
+        return ResponseEntity.ok().body(nose.getAll());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity eliminar(@PathVariable Long id){
-        gs.De(id);
+        nose.De(id);
         return ResponseEntity.noContent().build();
     }
 

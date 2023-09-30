@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
+import portafolio.Clinica2.dto.DtoPaciente;
 import portafolio.Clinica2.modelo.Paciente;
 import portafolio.Clinica2.servicio.IGenericService;
 
@@ -24,7 +24,7 @@ import portafolio.Clinica2.servicio.IGenericService;
 public class PacienteController {
     
     @Autowired
-    private IGenericService<Paciente> gs;
+    private IGenericService<Paciente, DtoPaciente> gs;
 
     @PostMapping
     public ResponseEntity guardar(@Valid  @RequestBody Paciente p, UriComponentsBuilder ur){

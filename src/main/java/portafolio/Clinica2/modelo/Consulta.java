@@ -39,5 +39,6 @@ public class Consulta {
     private Especialidad especialidad;
 
     @NotNull
-    private LocalDateTime fecha_Y_Hora;
+    private LocalDateTime fechaYHora;
+
 }

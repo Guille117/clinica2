@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import portafolio.Clinica2.dto.DtoPaciente;
 import portafolio.Clinica2.modelo.Paciente;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
 import portafolio.Clinica2.repositorio.IPersonaResponRepository;
 import portafolio.Clinica2.validacion.paciente.ValidarPaciente;
 
 @Service
-public class PacienteService implements IGenericService<Paciente>{
+public class PacienteService implements IGenericService<Paciente, DtoPaciente>{
 
     @Autowired
     private IPacienteRepository pr;
@@ -41,7 +42,7 @@ public class PacienteService implements IGenericService<Paciente>{
     }
 
     @Override
-    public void Up(Long id) {
+    public void Up(DtoPaciente dtoPac) {
         
     }
 

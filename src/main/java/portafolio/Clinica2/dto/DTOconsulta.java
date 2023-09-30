@@ -28,6 +28,6 @@ public class DTOconsulta {
         this.nomPaciente = c.getPaciente().getP().nombreCompleto();
         this.nomEspecialidad = c.getEspecialidad().getNombre();
         this.precioConsulta = c.getEspecialidad().getPrecio();
-        this.fechaHora = c.getFecha_Y_Hora();
+        this.fechaHora = c.getFechaYHora();
     }
 }
