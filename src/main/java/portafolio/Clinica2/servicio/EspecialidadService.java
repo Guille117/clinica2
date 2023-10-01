@@ -33,11 +33,20 @@ public class EspecialidadService implements IGenericService<Especialidad, DtoEsp
 
     @Override
     public void Up(DtoEspecialidad dtoEsp) {
+        Especialidad esp = this.getOne(dtoEsp.getIdEspecialidad());
+        if(dtoEsp.getNombre() != null){
+            esp.setNombre(dtoEsp.getNombre());
+        }
+        if(dtoEsp.getPrecio() != null){
+            esp.setPrecio(dtoEsp.getPrecio());
+        }
     }
 
     @Override
     public void De(Long id) {
        er.deleteById(id);
     }
+
+    
     
 }
