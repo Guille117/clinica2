@@ -35,6 +35,7 @@ public class Paciente {
 
     @Valid
     @ManyToOne
+    //@Cascade(CascadeType.ALL)
     @JoinColumn(name="PersonaResponsable", referencedColumnName = "idResponsable")
     private PersonaResponsable personaResponsable;
 }

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import portafolio.Clinica2.dto.DtoPersona;
 
 @Embeddable
 @Getter @Setter
@@ -29,5 +30,11 @@ public class Persona {
 
     public String nombreCompleto(){
         return nombre + " " + apellido;
+    }
+
+    public Persona(DtoPersona v2){
+        this.nombre = v2.getNombre();
+        this.apellido = v2.getApellido();
+        this.edad = v2.getEdad();
     }
 }

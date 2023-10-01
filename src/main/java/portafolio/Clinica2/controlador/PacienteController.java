@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,14 +18,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.validation.Valid;
 import portafolio.Clinica2.dto.DtoPaciente;
 import portafolio.Clinica2.modelo.Paciente;
-import portafolio.Clinica2.servicio.IGenericService;
+import portafolio.Clinica2.servicio.IPacienteService;
 
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController {
     
     @Autowired
-    private IGenericService<Paciente, DtoPaciente> gs;
+    private IPacienteService gs;
 
     @PostMapping
     public ResponseEntity guardar(@Valid  @RequestBody Paciente p, UriComponentsBuilder ur){
@@ -43,9 +44,25 @@ public class PacienteController {
         return ResponseEntity.ok().body(gs.getAll());
     }
 
+    @GetMapping("/mayores")
+    public ResponseEntity<List<Paciente>> mayores(){
+        return ResponseEntity.ok().body(gs.mayores());
+    }
+
+    @GetMapping("/menores")
+    public ResponseEntity<List<Paciente>> menores(){
+        return ResponseEntity.ok().body(gs.menores());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity eliminar(@PathVariable Long id){
         gs.De(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity actualizar(@Valid @RequestBody DtoPaciente dtoPaciente){
+        gs.Up(dtoPaciente);
+        return ResponseEntity.ok().body(gs.getOne(dtoPaciente.getIdPaciente()));
     }
 }
