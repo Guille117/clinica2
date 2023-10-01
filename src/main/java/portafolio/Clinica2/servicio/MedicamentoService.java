@@ -14,7 +14,7 @@ import portafolio.Clinica2.modelo.Medicamento;
 import portafolio.Clinica2.repositorio.IMedicamentoRepository;
 
 @Service
-public class MedicamentoService implements IGenericService<Medicamento, DtoMedicamento>{
+public class MedicamentoService implements IMedicamentoService{
     @Autowired
     private IMedicamentoRepository mr;
 
@@ -61,5 +61,34 @@ public class MedicamentoService implements IGenericService<Medicamento, DtoMedic
     public void De(Long id) {
         mr.deleteById(id);
     }
-    
+
+    @Override
+    public List<Medicamento> medicamentoPorMarca(String Marca) {
+        List<Medicamento> medicamentos = mr.findByMarca(Marca);
+        if(medicamentos.isEmpty()){
+            throw new EntityNotFoundException("Sin medicamentos de la marca " + Marca);
+        }else{
+            return mr.findByMarca(Marca);
+        }
+    }
+
+    @Override
+    public List<Medicamento> medicamentoACaducar() {
+        LocalDate hoy = LocalDate.now();
+        LocalDate meses2 = hoy.plusMonths(2);
+
+       return mr.findByFechaVencimientoBetween(hoy, meses2);
+    }
+
+    @Override
+    public List<Medicamento> medicamentoCaducado() {
+        return mr.findByFechaVencimientoBefore(LocalDate.now());
+    }
+
+    @Override
+    public List<Medicamento> medicamentoSinExistencia() {
+        return mr.findByCanDisponible(0);
+    }
+
+   
 }

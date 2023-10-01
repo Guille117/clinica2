@@ -19,6 +19,6 @@ public class DtoMedicamento {
     private String marca;
     private LocalDate fechaVencimiento;
     private Integer canDisponible;
-    @DecimalMin(value = "0.5")
+    @DecimalMin(value = "0.25")
     private Double precioUnitario;
 }

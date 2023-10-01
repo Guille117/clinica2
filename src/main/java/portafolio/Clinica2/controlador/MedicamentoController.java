@@ -13,19 +13,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
 import portafolio.Clinica2.dto.DtoMedicamento;
 import portafolio.Clinica2.modelo.Medicamento;
-import portafolio.Clinica2.servicio.IGenericService;
+import portafolio.Clinica2.servicio.IMedicamentoService;
 
 @RestController
 @RequestMapping("/medicamento")
 public class MedicamentoController {
     @Autowired
-    private IGenericService<Medicamento, DtoMedicamento> gs;
+    private IMedicamentoService gs;
 
     @PostMapping
     public ResponseEntity guardar(@Valid @RequestBody Medicamento m, UriComponentsBuilder ur){
@@ -42,6 +43,26 @@ public class MedicamentoController {
     @GetMapping
     public ResponseEntity<List<Medicamento>> obtenerTodos(){
         return ResponseEntity.ok().body(gs.getAll());
+    }
+
+    @GetMapping("/b")
+    public ResponseEntity<List<Medicamento>> medFecha(@RequestParam String marca){
+        return ResponseEntity.ok().body(gs.medicamentoPorMarca(marca));
+    } 
+
+    @GetMapping("/aCaducar")
+    public ResponseEntity<List<Medicamento>> aCaducar(){
+        return ResponseEntity.ok().body(gs.medicamentoACaducar());
+    }
+
+    @GetMapping("/caducado")
+    public ResponseEntity<List<Medicamento>> caducados(){
+        return ResponseEntity.ok().body(gs.medicamentoCaducado());
+    }
+
+    @GetMapping("/sinUnidades")
+    public ResponseEntity<List<Medicamento>> sinUnidades(){
+        return ResponseEntity.ok().body(gs.medicamentoSinExistencia());
     }
 
     @PutMapping
