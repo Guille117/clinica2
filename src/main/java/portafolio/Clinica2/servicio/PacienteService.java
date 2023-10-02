@@ -89,6 +89,7 @@ public class PacienteService implements IPacienteService{
             @Valid PersonaResponsable pRes = new PersonaResponsable(dtoPac.getPersonaResponsable());
             responsable.save(pRes);
             p.setPersonaResponsable(pRes);
+            pr.save(p);
         }
     }
 
