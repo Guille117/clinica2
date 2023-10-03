@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 import portafolio.Clinica2.modelo.Medico;
 
 @Component
-public class EdadMedico implements ValidarMedico{
+public class VEdadMedico implements IValidarMedico{
 
     @Override
     public void validarMed(Medico med) {

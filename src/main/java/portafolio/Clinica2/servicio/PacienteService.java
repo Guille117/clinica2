@@ -16,8 +16,8 @@ import portafolio.Clinica2.modelo.Persona;
 import portafolio.Clinica2.modelo.PersonaResponsable;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
 import portafolio.Clinica2.repositorio.IPersonaResponRepository;
-import portafolio.Clinica2.validacion.ActualizarPaciente.ValidarActualizarPaciente;
-import portafolio.Clinica2.validacion.paciente.ValidarPaciente;
+import portafolio.Clinica2.validacion.ActualizarPaciente.IValidarActualizarPaciente;
+import portafolio.Clinica2.validacion.paciente.IValidarPaciente;
 
 @Service
 public class PacienteService implements IPacienteService{
@@ -25,13 +25,13 @@ public class PacienteService implements IPacienteService{
     @Autowired
     private IPacienteRepository pr;
     @Autowired
-    private List<ValidarPaciente> val;
+    private List<IValidarPaciente> val;
     @Autowired
     private IPersonaResponRepository responsable;
     @Autowired
     private PersoResponsableService SRespo;
     @Autowired
-    private List<ValidarActualizarPaciente> valRes;
+    private List<IValidarActualizarPaciente> valRes;
 
     @Override
     public void Sa(Paciente t) {

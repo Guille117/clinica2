@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 import portafolio.Clinica2.dto.DtoPaciente;
 
 @Component
-public class EdadResponsable implements ValidarActualizarPaciente{
+public class VEdadResponsable implements IValidarActualizarPaciente{
 
     @Override
     public void ValidarPaciente(DtoPaciente pacDto) {

@@ -6,7 +6,7 @@ import jakarta.validation.ValidationException;
 import portafolio.Clinica2.modelo.Paciente;
 
 @Component
-public class ValidarResponsable implements ValidarPaciente{
+public class ValidarResponsable implements IValidarPaciente{
 
     @Override
     public void validar(Paciente pa) {

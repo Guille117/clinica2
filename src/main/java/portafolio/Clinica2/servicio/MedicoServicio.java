@@ -13,7 +13,7 @@ import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.modelo.Medico;
 import portafolio.Clinica2.modelo.Persona;
 import portafolio.Clinica2.repositorio.IMedicoRepository;
-import portafolio.Clinica2.validacion.Medico.ValidarMedico;
+import portafolio.Clinica2.validacion.Medico.IValidarMedico;
 
 @Service
 public class MedicoServicio implements IMedicoService{
@@ -23,7 +23,7 @@ public class MedicoServicio implements IMedicoService{
     @Autowired
     private EspecialidadService er;
     @Autowired
-    private List<ValidarMedico> validMed;
+    private List<IValidarMedico> validMed;
 
     @Override
     public void Sa(Medico t) {

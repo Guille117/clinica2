@@ -4,6 +4,6 @@ import org.springframework.stereotype.Component;
 import portafolio.Clinica2.modelo.Medico;
 
 @Component
-public interface ValidarMedico {
+public interface IValidarMedico {
     void validarMed(Medico med);
 }

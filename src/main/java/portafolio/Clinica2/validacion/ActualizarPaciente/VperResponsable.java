@@ -8,7 +8,7 @@ import portafolio.Clinica2.dto.DtoPaciente;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
 
 @Component
-public class perResponsable implements ValidarActualizarPaciente{
+public class VperResponsable implements IValidarActualizarPaciente{
     @Autowired
     private IPacienteRepository pr;
 
