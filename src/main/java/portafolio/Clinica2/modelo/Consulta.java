@@ -45,4 +45,6 @@ public class Consulta {
     @Future
     private LocalDateTime fechaYHora;
 
+    boolean pagado = false;
+
 }

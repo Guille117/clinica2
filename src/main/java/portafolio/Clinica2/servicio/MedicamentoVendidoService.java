@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import portafolio.Clinica2.dto.DtoMedicamentoVendido;
 import portafolio.Clinica2.modelo.Medicamento;
@@ -21,18 +22,22 @@ public class MedicamentoVendidoService implements IGenericService<MedicamentoVen
     private MedicamentoService ms;
 
     @Override
+    @Transactional
     public void Sa(MedicamentoVendido t) {
         Medicamento med = ms.getOne(t.getMedicamento().getIdMedicamento());
         Integer disponible = med.getCanDisponible();
        if( disponible >= t.getCantidad()){
-            disponible -= t.getCantidad();
-            //t.getMedicamento().setCanDisponible(disponible);
-            t.setTotal(t.calcularTotal(med));
+            disponible -= t.getCantidad();      // hacemos el descuento de la cantidad disponible
+            med.setCanDisponible(disponible);       // agregamos la nueva cantidad disponible a medicamento 
 
-            System.out.println(t.getTotal());
-            //mvr.save(t);
+            t.setTotal(t.calcularTotal(med));       // calculamos y seteamos el total
+
+            t.getMedicamento().establecerValores(med); // agregamos los valores al dtoMedicamento
+            
+            ms.Sa(med);     // actualizamos medicamento
+            mvr.save(t);        // guardamos medicamento vendido
        }else{
-        throw new ValidationException("No se cuenta con suficiente " + t.getMedicamento().getNombre());
+        throw new ValidationException("No se cuenta con suficiente medicamento, nombre: " + med.getNombre());
        }
     }
 

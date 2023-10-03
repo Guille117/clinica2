@@ -3,6 +3,7 @@ package portafolio.Clinica2.dto;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class DtoMedicamento {
     private Long idMedicamento;
     private String nombre;
     private String marca;
+    @Future
     private LocalDate fechaVencimiento;
     private Integer canDisponible;
     @DecimalMin(value = "0.25")

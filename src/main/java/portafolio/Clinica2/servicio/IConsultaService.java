@@ -17,4 +17,5 @@ public interface IConsultaService {
     List<DTOconsulta> getAllMedico(Long idMedico);
     List<DTOconsulta> getAllEspecialidad(Long idEspecialidad);
     List<DTOconsulta> getAllFecha(String fecha);
+    List<DTOconsulta> getPagadoOnO(Boolean pagado);
 }

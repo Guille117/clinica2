@@ -138,4 +138,11 @@ public class ConsultaService implements IConsultaService{
         return listDto3;
 
     }
+
+    @Override
+    public List<DTOconsulta> getPagadoOnO(Boolean pagado) {
+        List<Consulta> con = cr.findByPagado(pagado);
+        List<DTOconsulta> consultas = con.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        return consultas;
+    }
 }

@@ -1,7 +1,6 @@
 package portafolio.Clinica2.controlador;
 
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,11 @@ public class ConsultaController {
     public ResponseEntity eliminar(@PathVariable Long id){
         gs.De(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/pagado/{pagado}")
+    public ResponseEntity<List<DTOconsulta>> consultasPagadas(@PathVariable Boolean pagado){
+        return ResponseEntity.ok().body(gs.getPagadoOnO(pagado));
     }
 
     @PutMapping

@@ -16,15 +16,15 @@ import portafolio.Clinica2.modelo.MedicamentoVendido;
 import portafolio.Clinica2.servicio.IGenericService;
 
 @RestController
-@RequestMapping("/venta")
-public class lolController {
+@RequestMapping("/medicamentoVenta")
+public class VentaMedicamento {
     @Autowired
     private IGenericService<MedicamentoVendido, DtoMedicamentoVendido> nose;
 
     @PostMapping
     public ResponseEntity guardar(@Valid @RequestBody MedicamentoVendido mv){
         nose.Sa(mv);
-        return ResponseEntity.ok().body(mv);
+        return ResponseEntity.ok().body(nose.getOne(mv.getIdVenta()));
     }
 
     @GetMapping("/{id}")

@@ -18,6 +18,7 @@ public class DTOconsulta {
     private String nomEspecialidad;
     private Double precioConsulta;
     private LocalDateTime fechaHora;
+    private boolean pagado;
 
 
     public DTOconsulta(Consulta c){
@@ -29,5 +30,6 @@ public class DTOconsulta {
         this.nomEspecialidad = c.getEspecialidad().getNombre();
         this.precioConsulta = c.getEspecialidad().getPrecio();
         this.fechaHora = c.getFechaYHora();
+        this.pagado = c.isPagado();
     }
 }

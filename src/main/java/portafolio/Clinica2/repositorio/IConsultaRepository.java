@@ -16,4 +16,5 @@ public interface IConsultaRepository extends JpaRepository<Consulta, Long>{
     public abstract List<Consulta> findByFechaYHoraBetween(LocalDateTime mañana, LocalDateTime tarde);
     public abstract List<Consulta> findByEspecialidadIdEspecialidad(Long idEspecialidad);
     public abstract List<Consulta> findByMedicoIdMedico(Long idMedico);
+    public abstract List<Consulta> findByPagado(Boolean pagado);
 }
