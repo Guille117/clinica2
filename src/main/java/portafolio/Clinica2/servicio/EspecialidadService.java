@@ -11,7 +11,7 @@ import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.repositorio.IEspecialidadRepository;
 
 @Service
-public class EspecialidadService implements IGenericService<Especialidad, DtoEspecialidad>{
+public class EspecialidadService implements IEspecialidadService{
 
     @Autowired
     private IEspecialidadRepository er;

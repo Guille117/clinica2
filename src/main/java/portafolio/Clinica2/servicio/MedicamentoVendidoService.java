@@ -1,5 +1,6 @@
 package portafolio.Clinica2.servicio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,12 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import portafolio.Clinica2.dto.DtoMedicamentoVendido;
 import portafolio.Clinica2.modelo.Medicamento;
 import portafolio.Clinica2.modelo.MedicamentoVendido;
 import portafolio.Clinica2.repositorio.IMedicamentoVendidoRepository;
 
 @Service
-public class MedicamentoVendidoService implements IGenericService<MedicamentoVendido, DtoMedicamentoVendido>{
+public class MedicamentoVendidoService implements IMedicamentoVendidoService{
 
     @Autowired
     private IMedicamentoVendidoRepository mvr;
@@ -52,12 +52,18 @@ public class MedicamentoVendidoService implements IGenericService<MedicamentoVen
     }
 
     @Override
-    public void Up(DtoMedicamentoVendido dtoMedVen) {
+    public void De(Long id) {
+        mvr.deleteById(id);
     }
 
     @Override
-    public void De(Long id) {
-        mvr.deleteById(id);
+    public List<MedicamentoVendido> obtenerPorFecha(String fecha) {
+        return mvr.findByFechaVenta(LocalDate.parse(fecha));
+    }
+
+    @Override
+    public List<MedicamentoVendido> obtenerPorMedicamento(Long idMedicamento) {
+        return mvr.findByMedicamentoIdMedicamento(idMedicamento);
     }
     
 }

@@ -1,6 +1,7 @@
 package portafolio.Clinica2.excepcion;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,11 @@ public class exception {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity duplicados(SQLIntegrityConstraintViolationException e){
         return ResponseEntity.unprocessableEntity().body(e.getMessage());
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity errorFormatoFecha(){
+        return ResponseEntity.badRequest().body("Formato de fecha incorrecto, año, mes, día 0000-00-00 ");
     }
  
 
