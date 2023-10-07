@@ -22,10 +22,14 @@ public class VHorarioMedico implements IValidarConsulta{
 
             Long idMedico = c.getMedico().getIdMedico();
             LocalDateTime fecha = c.getFechaYHora();
-
+            
             if(cr.existsByMedicoIdMedicoAndFechaYHora(idMedico, fecha)){
-                throw new ValidationException("El medico ya tiene una consulta programada para este horario");
+                Consulta consulta = cr.findByMedicoIdMedicoAndFechaYHora(idMedico, fecha);
+                if(!(consulta.getIdConsulta().equals(c.getIdConsulta()))){
+                throw new ValidationException("El medico ya tiene una consulta programada para este horario.");
             }
+            }
+            
         }
     }
     

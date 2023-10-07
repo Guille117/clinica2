@@ -1,4 +1,4 @@
-package portafolio.Clinica2.servicio;
+package portafolio.Clinica2.servicio.serviceEspecialidad;
 
 import java.util.List;
 

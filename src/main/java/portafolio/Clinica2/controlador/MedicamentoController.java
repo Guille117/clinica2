@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import portafolio.Clinica2.dto.DtoMedicamento;
+import portafolio.Clinica2.dto.DtoMedicamento.DtoMedicamento;
 import portafolio.Clinica2.modelo.Medicamento;
-import portafolio.Clinica2.servicio.IMedicamentoService;
+import portafolio.Clinica2.servicio.serviceMedicamento.IMedicamentoService;
 
 @RestController
 @RequestMapping("/medicamento")

@@ -11,6 +11,8 @@ import portafolio.Clinica2.modelo.MedicamentoVendido;
 @Repository
 public interface IMedicamentoVendidoRepository extends JpaRepository<MedicamentoVendido, Long>{
     public abstract List<MedicamentoVendido> findByFechaVenta(LocalDate fecha);
-    public abstract List<MedicamentoVendido> findByMedicamentoIdMedicamento(Long idMedicamento);
+    public abstract List<MedicamentoVendido> findByIdMedicamento(Long idMedicamento);
+    public abstract List<MedicamentoVendido> findByIdCobroGeneralIdCobro(Long idCobro);
+    public abstract void deleteByIdCobroGeneralIdCobro(Long idCobro);
     
 }

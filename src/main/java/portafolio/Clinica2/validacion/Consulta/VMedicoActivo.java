@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import jakarta.validation.ValidationException;
 import portafolio.Clinica2.modelo.Consulta;
 import portafolio.Clinica2.modelo.Medico;
-import portafolio.Clinica2.servicio.IMedicoService;
+import portafolio.Clinica2.servicio.serviceMedico.IMedicoService;
 
 @Component
 public class VMedicoActivo implements IValidarConsulta{

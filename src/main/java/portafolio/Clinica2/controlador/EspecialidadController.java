@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.validation.Valid;
 import portafolio.Clinica2.dto.DtoEspecialidad;
 import portafolio.Clinica2.modelo.Especialidad;
-import portafolio.Clinica2.servicio.IEspecialidadService;
+import portafolio.Clinica2.servicio.serviceEspecialidad.IEspecialidadService;
 
 @RestController
 @RequestMapping("/especialidad")

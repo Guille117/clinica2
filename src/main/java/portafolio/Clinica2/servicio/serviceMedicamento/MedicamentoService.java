@@ -1,4 +1,4 @@
-package portafolio.Clinica2.servicio;
+package portafolio.Clinica2.servicio.serviceMedicamento;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import portafolio.Clinica2.dto.DtoMedicamento;
+import portafolio.Clinica2.dto.DtoMedicamento.DtoMedicamento;
 import portafolio.Clinica2.modelo.Medicamento;
 import portafolio.Clinica2.repositorio.IMedicamentoRepository;
 

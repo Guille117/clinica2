@@ -5,6 +5,7 @@ create table consulta(
     id_especialidad bigint not null,
     fecha_y_hora datetime not null,
     pagado tinyint default 0,
+    fecha_pago DATE DEFAULT NULL,
     PRIMARY KEY(id_consulta),
     FOREIGN KEY(id_medico) REFERENCES medico (id_medico),
     FOREIGN KEY(id_paciente) REFERENCES paciente(id_paciente),

@@ -24,9 +24,15 @@ public class VPaciente implements IValidarConsulta{
             LocalDateTime mañana = fecha.withHour(7);
             LocalDateTime tarde = fecha.withHour(17);
 
+            
+
             if(cr.existsByPacienteIdPacienteAndFechaYHoraBetween(idPaciente, mañana, tarde)){
+                Consulta consulta = cr.findByPacienteIdPacienteAndFechaYHoraBetween(idPaciente, mañana, tarde);
+                 if(!(consulta.getIdConsulta().equals(c.getIdConsulta()))){
                 throw new ValidationException("Cada paciente unicamente puede realizar una consulta por día");
             }
+            }
+           
         }
     }
 

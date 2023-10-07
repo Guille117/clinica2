@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
-import portafolio.Clinica2.dto.DtoConsultaModificar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
 import portafolio.Clinica2.modelo.Consulta;
 import portafolio.Clinica2.repositorio.IConsultaRepository;
 

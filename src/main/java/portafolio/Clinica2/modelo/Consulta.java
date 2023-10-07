@@ -1,5 +1,6 @@
 package portafolio.Clinica2.modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -46,5 +47,6 @@ public class Consulta {
     private LocalDateTime fechaYHora;
 
     boolean pagado = false;
+    LocalDate fechaPago = null;
 
 }

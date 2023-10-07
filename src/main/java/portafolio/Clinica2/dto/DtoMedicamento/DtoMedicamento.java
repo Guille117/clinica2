@@ -1,4 +1,4 @@
-package portafolio.Clinica2.dto;
+package portafolio.Clinica2.dto.DtoMedicamento;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoMedicamento {
+public class DtoMedicamento {           // este dto sirve para ingresar los atributos que deseeamos actualizar
     @NotNull
     private Long idMedicamento;
     private String nombre;

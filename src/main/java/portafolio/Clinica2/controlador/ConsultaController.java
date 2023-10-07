@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
-import portafolio.Clinica2.dto.DTOconsulta;
-import portafolio.Clinica2.dto.DtoConsultaModificar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaMostrar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaParaCobro;
 import portafolio.Clinica2.modelo.Consulta;
-import portafolio.Clinica2.servicio.IConsultaService;
+import portafolio.Clinica2.servicio.serviceConsulta.IConsultaService;
 
 @RestController
 @RequestMapping("/consulta")
@@ -37,27 +38,27 @@ public class ConsultaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DTOconsulta> obtener1(@PathVariable Long id){
+    public ResponseEntity<DtoConsultaMostrar> obtener1(@PathVariable Long id){
         return ResponseEntity.ok().body(gs.getOne(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<DTOconsulta>> todos(){
+    public ResponseEntity<List<DtoConsultaMostrar>> todos(){
         return ResponseEntity.ok().body(gs.getAll());
     }
 
     @GetMapping("/porMedico/{idMedico}")
-    public ResponseEntity<List<DTOconsulta>> obtenerPorMedico(@PathVariable Long idMedico){
+    public ResponseEntity<List<DtoConsultaParaCobro>> obtenerPorMedico(@PathVariable Long idMedico){
         return ResponseEntity.ok().body(gs.getAllMedico(idMedico));
     }
 
     @GetMapping("/porEspecialidad/{idEspecialidad}")
-    public ResponseEntity<List<DTOconsulta>> obtenerPorEspecialidad(@PathVariable Long idEspecialidad){
+    public ResponseEntity<List<DtoConsultaParaCobro>> obtenerPorEspecialidad(@PathVariable Long idEspecialidad){
         return ResponseEntity.ok().body(gs.getAllEspecialidad(idEspecialidad));
     }
 
     @GetMapping("/porFecha")
-    public ResponseEntity<List<DTOconsulta>> obtenerPorFecha (@RequestParam String fecha){
+    public ResponseEntity<List<DtoConsultaParaCobro>> obtenerPorFecha (@RequestParam String fecha){
         return ResponseEntity.ok().body(gs.getAllFecha(fecha));
     }
 
@@ -68,7 +69,7 @@ public class ConsultaController {
     }
 
     @GetMapping("/pagado/{pagado}")
-    public ResponseEntity<List<DTOconsulta>> consultasPagadas(@PathVariable Boolean pagado){
+    public ResponseEntity<List<DtoConsultaParaCobro>> consultasPagadas(@PathVariable Boolean pagado){
         return ResponseEntity.ok().body(gs.getPagadoOnO(pagado));
     }
 

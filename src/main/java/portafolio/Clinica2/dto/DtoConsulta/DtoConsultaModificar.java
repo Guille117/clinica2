@@ -1,4 +1,4 @@
-package portafolio.Clinica2.dto;
+package portafolio.Clinica2.dto.DtoConsulta;
 
 import java.time.LocalDateTime;
 import jakarta.validation.constraints.Future;

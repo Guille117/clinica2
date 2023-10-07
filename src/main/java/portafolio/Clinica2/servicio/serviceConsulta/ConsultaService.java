@@ -1,5 +1,6 @@
-package portafolio.Clinica2.servicio;
+package portafolio.Clinica2.servicio.serviceConsulta;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -10,14 +11,17 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import portafolio.Clinica2.dto.DTOconsulta;
-import portafolio.Clinica2.dto.DtoConsultaModificar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaMostrar;
+import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaParaCobro;
 import portafolio.Clinica2.modelo.Consulta;
 import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.modelo.Medico;
 import portafolio.Clinica2.modelo.Paciente;
 import portafolio.Clinica2.repositorio.IConsultaRepository;
 import portafolio.Clinica2.repositorio.IEspecialidadRepository;
+import portafolio.Clinica2.servicio.serviceMedico.IMedicoService;
+import portafolio.Clinica2.servicio.servicePaciente.IPacienteService;
 import portafolio.Clinica2.validacion.Consulta.IValidarActualizarconsulta;
 import portafolio.Clinica2.validacion.Consulta.IValidarConsulta;
 
@@ -48,16 +52,16 @@ public class ConsultaService implements IConsultaService{
     }
 
     @Override
-    public DTOconsulta getOne(Long id) {
-        return new DTOconsulta(cr.findById(id).orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada")));
+    public DtoConsultaMostrar getOne(Long id) {
+        return new DtoConsultaMostrar(cr.findById(id).orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada")));
     }
 
 
     @Override
-    public List<DTOconsulta> getAll() {
+    public List<DtoConsultaMostrar> getAll() {
         
         List<Consulta> consultas = cr.findAll();
-        List<DTOconsulta> consultasDto = consultas.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        List<DtoConsultaMostrar> consultasDto = consultas.stream().map(DtoConsultaMostrar::new).collect(Collectors.toList());
         
         return consultasDto;
     }
@@ -103,25 +107,25 @@ public class ConsultaService implements IConsultaService{
     }
 
     @Override
-    public List<DTOconsulta> getAllMedico(Long idMedico) {
+    public List<DtoConsultaParaCobro> getAllMedico(Long idMedico) {
         List<Consulta> consultas1= cr.findByMedicoIdMedico(idMedico);
-        List<DTOconsulta> listDto1 = consultas1.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        List<DtoConsultaParaCobro> listDto1 = consultas1.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
         return listDto1;
     }
 
     @Override
-    public List<DTOconsulta> getAllEspecialidad(Long idEspecialidad) {
+    public List<DtoConsultaParaCobro> getAllEspecialidad(Long idEspecialidad) {
         List<Consulta> consultas2 = cr.findByEspecialidadIdEspecialidad(idEspecialidad);
-        List<DTOconsulta> listDto2 = consultas2.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        List<DtoConsultaParaCobro> listDto2 = consultas2.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
         return listDto2;
     }
 
     @Override
-    public List<DTOconsulta> getAllFecha(String fecha) {
+    public List<DtoConsultaParaCobro> getAllFecha(String fecha) {
         LocalDateTime fech;
         try{
             fech = LocalDateTime.parse(fecha); 
-        }catch(DateTimeParseException e){
+        }catch(DateTimeParseException e){           // si recibimos recibimos un LocalDate lo convertimos a LocalDateTime para poder realizar la consulta
             StringBuilder pivote = new StringBuilder();
             pivote.append(fecha);
             pivote.append("T00:00");
@@ -133,16 +137,25 @@ public class ConsultaService implements IConsultaService{
         LocalDateTime tarde = fech.withHour(17).withMinute(0).withSecond(0);
 
         List<Consulta> consultas3 = cr.findByFechaYHoraBetween(mañana, tarde);
-        List<DTOconsulta> listDto3 = consultas3.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        List<DtoConsultaParaCobro> listDto3 = consultas3.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
 
         return listDto3;
 
     }
 
     @Override
-    public List<DTOconsulta> getPagadoOnO(Boolean pagado) {
+    public List<DtoConsultaParaCobro> getPagadoOnO(Boolean pagado) {
         List<Consulta> con = cr.findByPagado(pagado);
-        List<DTOconsulta> consultas = con.stream().map(DTOconsulta::new).collect(Collectors.toList());
+        List<DtoConsultaParaCobro> consultas = con.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
         return consultas;
+    }
+
+    @Override
+    @Transactional
+    public void pagarConsulta(Consulta c, Long idGeneral) {
+        Consulta con = this.getOneOriginal(c.getIdConsulta());
+        con.setPagado(true);
+        con.setFechaPago(LocalDate.now());
+        this.Sa(con);
     }
 }

@@ -1,4 +1,4 @@
-package portafolio.Clinica2.servicio;
+package portafolio.Clinica2.servicio.servicePaciente;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import portafolio.Clinica2.modelo.Persona;
 import portafolio.Clinica2.modelo.PersonaResponsable;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
 import portafolio.Clinica2.repositorio.IPersonaResponRepository;
+import portafolio.Clinica2.servicio.PersoResponsableService;
 import portafolio.Clinica2.validacion.ActualizarPaciente.IValidarActualizarPaciente;
 import portafolio.Clinica2.validacion.paciente.IValidarPaciente;
 

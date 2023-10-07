@@ -1,4 +1,4 @@
-package portafolio.Clinica2.servicio;
+package portafolio.Clinica2.servicio.serviceMedico;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.modelo.Medico;
 import portafolio.Clinica2.modelo.Persona;
 import portafolio.Clinica2.repositorio.IMedicoRepository;
+import portafolio.Clinica2.servicio.serviceEspecialidad.EspecialidadService;
 import portafolio.Clinica2.validacion.Medico.IValidarMedico;
 
 @Service
