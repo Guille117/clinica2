@@ -45,7 +45,7 @@ public class MedicamentoController {
         return ResponseEntity.ok().body(gs.getAll());
     }
 
-    @GetMapping("/b")
+    @GetMapping("/marca")
     public ResponseEntity<List<Medicamento>> medFecha(@RequestParam String marca){
         return ResponseEntity.ok().body(gs.medicamentoPorMarca(marca));
     } 

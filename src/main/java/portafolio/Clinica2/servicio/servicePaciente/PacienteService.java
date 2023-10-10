@@ -7,39 +7,20 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import portafolio.Clinica2.dto.DtoPaciente;
-import portafolio.Clinica2.dto.DtoPersoResponsable;
 import portafolio.Clinica2.dto.DtoPersona;
 import portafolio.Clinica2.modelo.Paciente;
 import portafolio.Clinica2.modelo.Persona;
-import portafolio.Clinica2.modelo.PersonaResponsable;
 import portafolio.Clinica2.repositorio.IPacienteRepository;
-import portafolio.Clinica2.repositorio.IPersonaResponRepository;
-import portafolio.Clinica2.servicio.PersoResponsableService;
-import portafolio.Clinica2.validacion.ActualizarPaciente.IValidarActualizarPaciente;
-import portafolio.Clinica2.validacion.paciente.IValidarPaciente;
 
 @Service
 public class PacienteService implements IPacienteService{
 
     @Autowired
     private IPacienteRepository pr;
-    @Autowired
-    private List<IValidarPaciente> val;
-    @Autowired
-    private IPersonaResponRepository responsable;
-    @Autowired
-    private PersoResponsableService SRespo;
-    @Autowired
-    private List<IValidarActualizarPaciente> valRes;
 
     @Override
     public void Sa(Paciente t) {
-        val.forEach(v -> v.validar(t));
-        if(t.getPersonaResponsable() != null && t.getPersonaResponsable().getIdResponsable() == null){
-            responsable.save(t.getPersonaResponsable());
-        }
         pr.save(t);
     }
 
@@ -57,7 +38,6 @@ public class PacienteService implements IPacienteService{
     @Override
     @Transactional
     public void Up(DtoPaciente dtoPac) {
-        valRes.forEach(v -> v.ValidarPaciente(dtoPac));
 
         Paciente p = this.getOne(dtoPac.getIdPaciente());
         Persona paci = p.getP();
@@ -74,23 +54,8 @@ public class PacienteService implements IPacienteService{
                 paci.setEdad(DtoPaci.getEdad());
             }
         }
-        if(dtoPac.getPersonaResponsable() != null && p.getPersonaResponsable() != null){
-            DtoPersoResponsable DtoRes = dtoPac.getPersonaResponsable();
-            DtoRes.setIdResponsable(p.getPersonaResponsable().getIdResponsable());
-            SRespo.actualizarResponsable(DtoRes);
-        }
-        if(dtoPac.getDpi() != null){
-            p.setDpi(dtoPac.getDpi());
-        }
         if(dtoPac.getTelefono() != null){
             p.setTelefono(dtoPac.getTelefono());
-        }
-        if((!(pr.existsByIdPacienteAndPersonaResponsableIsNotNull(p.getIdPaciente()))) && dtoPac.getPersonaResponsable() != null){
-            System.out.println(dtoPac.getPersonaResponsable().getP().getNombre());
-            @Valid PersonaResponsable pRes = new PersonaResponsable(dtoPac.getPersonaResponsable());
-            responsable.save(pRes);
-            p.setPersonaResponsable(pRes);
-            pr.save(p);
         }
     }
 

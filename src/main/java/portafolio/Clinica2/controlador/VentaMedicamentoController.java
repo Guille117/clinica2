@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoMedicamento.DtoMedVendido2;
-import portafolio.Clinica2.modelo.MedicamentoVendido;
 import portafolio.Clinica2.servicio.serviceMedicamento.IMedicamentoVendidoService;
 
 @RestController
@@ -22,12 +19,6 @@ import portafolio.Clinica2.servicio.serviceMedicamento.IMedicamentoVendidoServic
 public class VentaMedicamentoController {
     @Autowired
     private IMedicamentoVendidoService nose;
-
-    @PostMapping
-    public ResponseEntity guardar(@Valid @RequestBody MedicamentoVendido mv){
-        nose.Sa(mv);
-        return ResponseEntity.ok().body(nose.getOneVenta(mv.getIdVentaMedicamento()));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<DtoMedVendido2> ob1(@PathVariable Long id){
@@ -52,6 +43,21 @@ public class VentaMedicamentoController {
     @GetMapping("/porCobro/{idCobro}")
     public ResponseEntity<List<DtoMedVendido2>> obtenerPorCobro(@PathVariable Long idCobro){
         return ResponseEntity.ok().body(nose.obtenerPorIdCobro(idCobro));
+    }
+
+    @GetMapping("/totalPorFecha")
+    public ResponseEntity<DtoRetornoTotales> totalPorFecha(@RequestParam String fecha){
+        return ResponseEntity.ok().body(nose.totalPorFecha(fecha));
+    }
+
+    @GetMapping("/totalPorMedicamento/{idMedicamento}")
+    public ResponseEntity<DtoRetornoTotales> totalPorMed(@PathVariable Long idMedicamento){
+        return ResponseEntity.ok().body(nose.totalPorMedicamento(idMedicamento));
+    }
+
+    @GetMapping("/totalPorIdCobro/{idCobro}")
+    public ResponseEntity<DtoRetornoTotales> totalPorCobro(@PathVariable Long idCobro){
+        return ResponseEntity.ok().body(nose.totalPorIdCobro(idCobro));
     }
 
 }

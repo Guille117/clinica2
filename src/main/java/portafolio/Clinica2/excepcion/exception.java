@@ -39,7 +39,7 @@ public class exception {
 
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity errorFormatoFecha(){
-        return ResponseEntity.badRequest().body("Formato de fecha incorrecto, año, mes, día 0000-00-00 ");
+        return ResponseEntity.badRequest().body("Formato de fechas incorrecto. Fecha: yyyy-mm-dd Fecha y hora  yyyy-mm-ddThh:mm");
     }
  
 

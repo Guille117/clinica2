@@ -13,4 +13,5 @@ public interface ICobroService extends IGenericService<Cobro>{
     List<DtoMostrarCobro> mostrarPorFecha(String fecha);
     List<DtoMostrarCobro> mostrarPorPaciente(Long id);
     void anularCobro(Long idCobro);
+    double mostrarTotalVentaPorDia(String fecha);
 }

@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,10 +34,12 @@ public class Medico {
 
     @NotNull
     @Size(min = 8, max = 8, message = "Formato de número telefónico incorrecto")
+    @Pattern(regexp = "^[0-9]+$", message = "Formato de número telefónico incorrecto")
     private String telefono;
     
     @NotNull
-    @Size(min = 13, max = 13, message = "Formato de numero de identificación incorrecto")
+    @Size(min = 13, max = 13, message = "Formato de número de identificación incorrecto")
+    @Pattern(regexp = "^[0-9]+$", message = "Formato de número de identificación incorrecto")
     private String dpi;
     
     @NotNull

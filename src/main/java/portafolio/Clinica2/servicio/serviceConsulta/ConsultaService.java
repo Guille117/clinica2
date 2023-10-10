@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaMostrar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaParaCobro;
@@ -22,7 +23,6 @@ import portafolio.Clinica2.repositorio.IConsultaRepository;
 import portafolio.Clinica2.repositorio.IEspecialidadRepository;
 import portafolio.Clinica2.servicio.serviceMedico.IMedicoService;
 import portafolio.Clinica2.servicio.servicePaciente.IPacienteService;
-import portafolio.Clinica2.validacion.Consulta.IValidarActualizarconsulta;
 import portafolio.Clinica2.validacion.Consulta.IValidarConsulta;
 
 @Service
@@ -38,15 +38,13 @@ public class ConsultaService implements IConsultaService{
     private IEspecialidadRepository especialidadRepo;
     @Autowired
     private List<IValidarConsulta> validadoresConsulta;
-    @Autowired
-    private List<IValidarActualizarconsulta> validActualizarConsu;
 
     @Override
     public void Sa(Consulta t) {
         LocalDateTime fechaModificada = t.getFechaYHora().withMinute(0).withSecond(0);
         t.setFechaYHora(fechaModificada);
 
-        validadoresConsulta.forEach(v -> v.validar(t, "post"));
+        validadoresConsulta.forEach(v -> v.validar(t));
 
        cr.save(t);
     }
@@ -73,17 +71,13 @@ public class ConsultaService implements IConsultaService{
 
     @Override
     public void De(Long id) {
-        Consulta con = this.getOneOriginal(id);
-        validadoresConsulta.forEach(v -> v.validar(con, "delete"));
         cr.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void Up(DtoConsultaModificar dtoCon) {
-        validActualizarConsu.forEach(v -> v.validarActualizacion(dtoCon));
 
-        Consulta consulta = cr.findById(dtoCon.getIdConsulta()).orElseThrow(() -> new EntityNotFoundException("Consulta no encontrada"));
+        Consulta consulta = this.getOneOriginal(dtoCon.getIdConsulta());
 
         if(dtoCon.getIdMedico() != null){
             Medico med = medicoService.getOne(dtoCon.getIdMedico());
@@ -100,28 +94,26 @@ public class ConsultaService implements IConsultaService{
             LocalDateTime fecha = dtoCon.getFechaYHora().withMinute(0).withSecond(0);
             consulta.setFechaYHora(fecha);
         }
-
-        validadoresConsulta.forEach(v -> v.validar(consulta, "put"));
-        
-        cr.save(consulta);
+        //validadoresConsulta.forEach(v -> v.validar(consulta));
+        this.Sa(consulta);
     }
 
     @Override
-    public List<DtoConsultaParaCobro> getAllMedico(Long idMedico) {
+    public List<DtoConsultaParaCobro> getAllMedico(Long idMedico) {     // consultas por médico
         List<Consulta> consultas1= cr.findByMedicoIdMedico(idMedico);
         List<DtoConsultaParaCobro> listDto1 = consultas1.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
         return listDto1;
     }
 
     @Override
-    public List<DtoConsultaParaCobro> getAllEspecialidad(Long idEspecialidad) {
+    public List<DtoConsultaParaCobro> getAllEspecialidad(Long idEspecialidad) {     // consultas por especialidad
         List<Consulta> consultas2 = cr.findByEspecialidadIdEspecialidad(idEspecialidad);
         List<DtoConsultaParaCobro> listDto2 = consultas2.stream().map(DtoConsultaParaCobro::new).collect(Collectors.toList());
         return listDto2;
     }
 
     @Override
-    public List<DtoConsultaParaCobro> getAllFecha(String fecha) {
+    public List<DtoConsultaParaCobro> getAllFecha(String fecha) {       // consultas por fecha
         LocalDateTime fech;
         try{
             fech = LocalDateTime.parse(fecha); 
@@ -153,9 +145,20 @@ public class ConsultaService implements IConsultaService{
     @Override
     @Transactional
     public void pagarConsulta(Consulta c, Long idGeneral) {
-        Consulta con = this.getOneOriginal(c.getIdConsulta());
-        con.setPagado(true);
-        con.setFechaPago(LocalDate.now());
-        this.Sa(con);
+        c.setPagado(true);
+        c.setFechaPago(LocalDate.now());
+    }
+
+    @Override
+    public DtoRetornoTotales totalCosultaPorFecha(String fecha) {
+        List<Consulta> consultas = cr.findByFechaPagoAndPagadoIsTrue(LocalDate.parse(fecha));
+        int cantidad = consultas.size();
+        double total = 0d;
+
+        for(Consulta con: consultas){
+            total += con.getEspecialidad().getPrecio();    
+        }
+
+        return new DtoRetornoTotales("fecha", fecha, cantidad, total); 
     }
 }

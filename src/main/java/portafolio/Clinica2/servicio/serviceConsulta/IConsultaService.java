@@ -3,6 +3,7 @@ package portafolio.Clinica2.servicio.serviceConsulta;
 
 import java.util.List;
 
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaMostrar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaParaCobro;
@@ -20,4 +21,5 @@ public interface IConsultaService {
     List<DtoConsultaParaCobro> getAllFecha(String fecha);
     List<DtoConsultaParaCobro> getPagadoOnO(Boolean pagado);
     void pagarConsulta(Consulta c, Long idGeneral);
+    DtoRetornoTotales totalCosultaPorFecha(String fecha);
 }

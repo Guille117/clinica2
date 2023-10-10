@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoMedicamento.DtoMedVendido1;
 import portafolio.Clinica2.dto.DtoMedicamento.DtoMedVendido2;
 import portafolio.Clinica2.modelo.Cobro;
@@ -52,7 +53,7 @@ public class MedicamentoVendidoService implements IMedicamentoVendidoService{
 
 
     @Override
-    public List<DtoMedVendido2> getAllVenta() {
+    public List<DtoMedVendido2> getAllVenta() {     // se mostrará en venta de medicamentos
        List<MedicamentoVendido> medicamentos = mvr.findAll();
        List<DtoMedVendido2> dtoMedicamentos = medicamentos.stream().map(DtoMedVendido2::new).collect(Collectors.toList());
        
@@ -60,7 +61,7 @@ public class MedicamentoVendidoService implements IMedicamentoVendidoService{
     }
 
     @Override
-    public List<DtoMedVendido1> getAllCobro() {
+    public List<DtoMedVendido1> getAllCobro() {     // se mostrará en el cobro
        List<MedicamentoVendido> medicamentos = mvr.findAll();
        List<DtoMedVendido1> dtoMedicamentos = medicamentos.stream().map(DtoMedVendido1::new).collect(Collectors.toList());
        
@@ -78,7 +79,7 @@ public class MedicamentoVendidoService implements IMedicamentoVendidoService{
         return dtoMedicamentos;
     }
 
-    @Override
+    @Override       // listado de medicamentos de medicamento en particular  -> se mostrará en venta
     public List<DtoMedVendido2> obtenerPorMedicamento(Long idMedicamento) {
         List<MedicamentoVendido> medicamentos = mvr.findByIdMedicamento(idMedicamento);
         List<DtoMedVendido2> dtoMedicamentos = medicamentos.stream().map(DtoMedVendido2::new).collect(Collectors.toList());
@@ -87,7 +88,7 @@ public class MedicamentoVendidoService implements IMedicamentoVendidoService{
     }
 
     @Override
-    @Transactional
+    @Transactional      // realizamos la venta de una lista de medicamentos.
     public Double guardarTodo(List<MedicamentoVendido> medicamentos, Cobro idVentaGeneral) {
         Double total = 0D;
         for(MedicamentoVendido m: medicamentos){
@@ -100,22 +101,62 @@ public class MedicamentoVendidoService implements IMedicamentoVendidoService{
     }
 
     @Override
-    public List<DtoMedVendido1> getAllCobroId(Long idCobro) {
+    public List<DtoMedVendido1> getAllCobroId(Long idCobro) {       // se mostrará en cobro
         List<MedicamentoVendido> medVendido = mvr.findByIdCobroGeneralIdCobro(idCobro);
         List<DtoMedVendido1> dtoMedicamentos = medVendido.stream().map(DtoMedVendido1::new).collect(Collectors.toList()); 
         return dtoMedicamentos;
     }
 
     @Override
-    public void eliminarPorIdCobroGeneral(Long idGeneral) {
+    public void eliminarPorIdCobroGeneral(Long idGeneral) {     // elimina todos lo medicamentos que tengan en común un cobro en específico
        mvr.deleteByIdCobroGeneralIdCobro(idGeneral);
     }
 
-    @Override
+    @Override       // lista de medicamentos que pertenecen a un cobro en específico -> se mostrará en venta
     public List<DtoMedVendido2> obtenerPorIdCobro(Long idCobro) {
         List<MedicamentoVendido> medVendido = mvr.findByIdCobroGeneralIdCobro(idCobro);
         List<DtoMedVendido2> dtoMedicamentos = medVendido.stream().map(DtoMedVendido2::new).collect(Collectors.toList()); 
         return dtoMedicamentos;
     }
     
+    @Override       // retornamos una sumatoria total por fecha 
+    public DtoRetornoTotales totalPorFecha(String fecha){
+        List<DtoMedVendido2> medVendidos = this.obtenerPorFecha(fecha);
+        DtoRetornoTotales b1 = caltularTotal(medVendidos);
+        b1.establecerCampo("fecha", fecha); 
+        
+       return b1;
+    }
+
+    @Override       // retornamos una sumatoria total por el id del medicamento 
+    public DtoRetornoTotales totalPorMedicamento(Long idMedicamento){
+        List<DtoMedVendido2> medicamentos = this.obtenerPorMedicamento(idMedicamento);
+        DtoRetornoTotales b1 = caltularTotal(medicamentos);
+        b1.establecerCampo("idMedicamento", String.valueOf(idMedicamento));
+
+        return b1;
+    }
+
+    @Override
+    public DtoRetornoTotales totalPorIdCobro(Long idCobro){
+        List<DtoMedVendido2> medVendid2 = this.obtenerPorIdCobro(idCobro);
+        DtoRetornoTotales b1 = caltularTotal(medVendid2);
+        b1.establecerCampo("idCobro", String.valueOf(idCobro));
+
+        return b1;
+    }
+
+    public DtoRetornoTotales caltularTotal(List<DtoMedVendido2> medicamentos){
+        int cantidad = 0;
+        double total = 0d;
+        for(DtoMedVendido2 med: medicamentos){
+            total += med.getTotal();
+            cantidad += med.getCantidad();
+        }
+
+       DtoRetornoTotales resultado = new DtoRetornoTotales();
+       resultado.establecerValores(cantidad, total);
+
+       return resultado;
+    }
 }

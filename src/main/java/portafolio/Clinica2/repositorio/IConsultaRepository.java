@@ -1,5 +1,6 @@
 package portafolio.Clinica2.repositorio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface IConsultaRepository extends JpaRepository<Consulta, Long>{
     public abstract List<Consulta> findByEspecialidadIdEspecialidad(Long idEspecialidad);
     public abstract List<Consulta> findByMedicoIdMedico(Long idMedico);
     public abstract List<Consulta> findByPagado(Boolean pagado);
+    public abstract boolean existsByMedicoIdMedicoAndFechaYHoraAfter(Long idMedico, LocalDateTime fechaYHora);
+    public abstract List<Consulta> findByFechaPagoAndPagadoIsTrue(LocalDate fecha);
 }

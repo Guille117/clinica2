@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import portafolio.Clinica2.dto.DtoEspecialidad;
 import portafolio.Clinica2.modelo.Especialidad;
 import portafolio.Clinica2.repositorio.IEspecialidadRepository;
@@ -32,6 +33,7 @@ public class EspecialidadService implements IEspecialidadService{
     }
 
     @Override
+    @Transactional
     public void Up(DtoEspecialidad dtoEsp) {
         Especialidad esp = this.getOne(dtoEsp.getIdEspecialidad());
         if(dtoEsp.getNombre() != null){
@@ -40,6 +42,7 @@ public class EspecialidadService implements IEspecialidadService{
         if(dtoEsp.getPrecio() != null){
             esp.setPrecio(dtoEsp.getPrecio());
         }
+        //this.Sa(esp);
     }
 
     @Override

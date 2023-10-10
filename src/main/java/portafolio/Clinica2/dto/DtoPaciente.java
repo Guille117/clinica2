@@ -1,8 +1,6 @@
 package portafolio.Clinica2.dto;
 
 import jakarta.persistence.Embedded;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,9 +26,4 @@ public class DtoPaciente {
 
     @Size(min = 13, max = 13, message = "Formato de número de identificación incorrecto")
     private String dpi;
-
-    @Valid
-    @ManyToOne
-    @JoinColumn(name="Persona_Responsable", referencedColumnName = "idResponsable")
-    private DtoPersoResponsable personaResponsable;
 }

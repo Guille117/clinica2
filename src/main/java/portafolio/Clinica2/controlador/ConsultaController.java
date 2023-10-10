@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaModificar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaMostrar;
 import portafolio.Clinica2.dto.DtoConsulta.DtoConsultaParaCobro;
@@ -31,7 +32,7 @@ public class ConsultaController {
     private IConsultaService gs;
 
     @PostMapping
-    public ResponseEntity guardarConsulta(@Valid @RequestBody Consulta c, UriComponentsBuilder ur){
+    public ResponseEntity<Consulta> guardarConsulta(@Valid @RequestBody Consulta c, UriComponentsBuilder ur){
         gs.Sa(c);
         URI url = ur.path("/consulta/{id}").buildAndExpand(c.getIdConsulta()).toUri();
         return ResponseEntity.created(url).body(c);
@@ -73,10 +74,16 @@ public class ConsultaController {
         return ResponseEntity.ok().body(gs.getPagadoOnO(pagado));
     }
 
+    @GetMapping("/totalPorFecha")
+    public ResponseEntity<DtoRetornoTotales> totalPorFecha(@RequestParam String fecha){
+        return ResponseEntity.ok().body(gs.totalCosultaPorFecha(fecha));
+
+    }
+
+
     @PutMapping
     public ResponseEntity actualizar(@Valid @RequestBody DtoConsultaModificar dtoCon){
         gs.Up(dtoCon);
         return ResponseEntity.ok().body(gs.getOne(dtoCon.getIdConsulta()));
     }
-
 }

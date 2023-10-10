@@ -5,9 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,14 +28,7 @@ public class Paciente {
     private Persona p;
 
     @Size(min = 8, max = 8, message = "Formato de número telefónico incorrecto")
+    @Pattern(regexp = "^[0-9]+$", message = "formato de número telefónico incorrecto")
+    @NotNull
     private String telefono;
-
-    @Size(min = 13, max = 13, message = "Formato de número de identificación incorrecto")
-    private String dpi;
-
-    @Valid
-    @ManyToOne
-    //@Cascade(CascadeType.ALL)
-    @JoinColumn(name="PersonaResponsable", referencedColumnName = "idResponsable")
-    private PersonaResponsable personaResponsable;
 }

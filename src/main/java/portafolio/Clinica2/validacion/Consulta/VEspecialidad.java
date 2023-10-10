@@ -17,12 +17,10 @@ public class VEspecialidad implements IValidarConsulta{
     private IMedicoService mr;
 
     @Override
-    public void validar(Consulta c, String verbo) {
-        if(verbo.equalsIgnoreCase("post") || verbo.equalsIgnoreCase("put")){
+    public void validar(Consulta c) {
             Medico med = mr.getOne(c.getMedico().getIdMedico());
             if(!(med.getEspecialidad().getIdEspecialidad().equals(c.getEspecialidad().getIdEspecialidad()))){
                 throw new ValidationException("Médico no capacitado para la especialidad de la consulta");
-        }
         }
     }
 

@@ -23,7 +23,7 @@ public class VfechaConsulta implements IValidCobro{
         if(dc.getConsulta() != null){
             Consulta con = consultaService.getOneOriginal(dc.getConsulta().getIdConsulta());
             if(LocalDate.now().isBefore(con.getFechaYHora().toLocalDate())){
-                throw new ValidationException("Se recomieda pagar la consulta, una vez haya finalizado la misma.");
+                throw new ValidationException("Se recomienda pagar la consulta, una vez haya finalizado la misma.");
             }
         }
     }

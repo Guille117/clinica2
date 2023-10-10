@@ -16,14 +16,13 @@ public class VMedicoActivo implements IValidarConsulta{
     private IMedicoService ms;
 
     @Override
-    public void validar(Consulta c, String verbo) {
-       if(verbo.equalsIgnoreCase("post") || verbo.equalsIgnoreCase("put")){
+    public void validar(Consulta c) {
             Medico med = ms.getOne(c.getMedico().getIdMedico());
         
             if(!med.getEstado()){
                 throw new ValidationException("El médico esta inactivo");
             }
-       }
+       
     }
     
 }

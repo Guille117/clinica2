@@ -2,6 +2,7 @@ package portafolio.Clinica2.servicio.serviceMedicamento;
 
 import java.util.List;
 
+import portafolio.Clinica2.dto.DtoRetornoTotales;
 import portafolio.Clinica2.dto.DtoMedicamento.DtoMedVendido1;
 import portafolio.Clinica2.dto.DtoMedicamento.DtoMedVendido2;
 import portafolio.Clinica2.modelo.Cobro;
@@ -15,6 +16,10 @@ public interface IMedicamentoVendidoService{
     List<DtoMedVendido2> obtenerPorFecha(String fecha);
     List<DtoMedVendido2> obtenerPorMedicamento(Long idMedicamento);
     List<DtoMedVendido2> obtenerPorIdCobro(Long idCobro);
+    DtoRetornoTotales totalPorFecha(String fecha);
+    DtoRetornoTotales totalPorMedicamento(Long idMedicamento);
+    DtoRetornoTotales totalPorIdCobro(Long idCobro);
+
 
     // Acciones que se realizan desde el cobro general
     List<DtoMedVendido1> getAllCobro();

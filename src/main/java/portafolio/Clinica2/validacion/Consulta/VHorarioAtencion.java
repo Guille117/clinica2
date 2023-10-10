@@ -12,8 +12,7 @@ import portafolio.Clinica2.modelo.Consulta;
 public class VHorarioAtencion implements IValidarConsulta{
 
     @Override
-    public void validar(Consulta c, String verbo) {
-        if(verbo.equalsIgnoreCase("post") || verbo.equalsIgnoreCase("put")){
+    public void validar(Consulta c) {
             LocalDateTime fechaConsulta = c.getFechaYHora();
 
             if(fechaConsulta.getDayOfWeek() == DayOfWeek.SATURDAY || fechaConsulta.getDayOfWeek() == DayOfWeek.SUNDAY){
@@ -23,7 +22,6 @@ public class VHorarioAtencion implements IValidarConsulta{
             if(fechaConsulta.getHour() < 8 || fechaConsulta.getHour() >16){
                 throw new ValidationException("El horario de atención es de Lunes a Viernes de 08:00 a 16:00 horas");
             }
-        }
     }
     
 }

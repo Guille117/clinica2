@@ -17,20 +17,17 @@ public class VHorarioMedico implements IValidarConsulta{
     private IConsultaRepository cr;
 
     @Override
-    public void validar(Consulta c, String verbo) {
-        if(verbo.equalsIgnoreCase("post")){ 
+    public void validar(Consulta c) {
 
             Long idMedico = c.getMedico().getIdMedico();
             LocalDateTime fecha = c.getFechaYHora();
-            
             if(cr.existsByMedicoIdMedicoAndFechaYHora(idMedico, fecha)){
                 Consulta consulta = cr.findByMedicoIdMedicoAndFechaYHora(idMedico, fecha);
                 if(!(consulta.getIdConsulta().equals(c.getIdConsulta()))){
-                throw new ValidationException("El medico ya tiene una consulta programada para este horario.");
-            }
+                    throw new ValidationException("El medico ya tiene una consulta programada para este horario.");
+                }
             }
             
-        }
     }
     
 }

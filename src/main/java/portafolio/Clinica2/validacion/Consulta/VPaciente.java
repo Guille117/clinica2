@@ -17,8 +17,7 @@ public class VPaciente implements IValidarConsulta{
     private IConsultaRepository cr;
 
     @Override
-    public void validar(Consulta c, String verbo) {
-        if(verbo.equalsIgnoreCase("post")){
+    public void validar(Consulta c) {
             Long idPaciente = c.getPaciente().getIdPaciente();
             LocalDateTime fecha = c.getFechaYHora();
             LocalDateTime mañana = fecha.withHour(7);
@@ -29,8 +28,7 @@ public class VPaciente implements IValidarConsulta{
             if(cr.existsByPacienteIdPacienteAndFechaYHoraBetween(idPaciente, mañana, tarde)){
                 Consulta consulta = cr.findByPacienteIdPacienteAndFechaYHoraBetween(idPaciente, mañana, tarde);
                  if(!(consulta.getIdConsulta().equals(c.getIdConsulta()))){
-                throw new ValidationException("Cada paciente unicamente puede realizar una consulta por día");
-            }
+                throw new ValidationException("Cada paciente únicamente puede realizar una consulta por día");
             }
            
         }

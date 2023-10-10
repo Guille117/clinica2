@@ -54,6 +54,12 @@ public class CobroController {
         return ResponseEntity.ok().body(cs.mostrarPorPaciente(idPaciente));
     }
 
+    @GetMapping("/totalPorFecha")
+    public ResponseEntity<String> totalPorFecha(@RequestParam String fecha){
+        return ResponseEntity.ok().body("Durante la fecha " +  fecha 
+                    + " se realizó un total de cobros de: " + cs.mostrarTotalVentaPorDia(fecha));
+    }
+
     @DeleteMapping("/{idCobro}")
     public ResponseEntity eliminar(@PathVariable Long idCobro){
         cs.De(idCobro);

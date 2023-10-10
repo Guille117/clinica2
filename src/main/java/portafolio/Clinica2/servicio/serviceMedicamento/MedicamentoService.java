@@ -44,7 +44,7 @@ public class MedicamentoService implements IMedicamentoService{
         if(dtoMed.getMarca() != null){
             medicamento.setMarca(dtoMed.getMarca());
         }
-         if(dtoMed.getFechaVencimiento() != null){
+        if(dtoMed.getFechaVencimiento() != null){
             medicamento.setFechaVencimiento(dtoMed.getFechaVencimiento());
         }
         if(dtoMed.getCanDisponible() != null){
@@ -54,7 +54,7 @@ public class MedicamentoService implements IMedicamentoService{
             medicamento.setPrecioUnitario(dtoMed.getPrecioUnitario());
         }
 
-        this.Sa(medicamento);
+        mr.save(medicamento);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MedicamentoService implements IMedicamentoService{
     }
 
     @Override
-    public List<Medicamento> medicamentoACaducar() {
+    public List<Medicamento> medicamentoACaducar() { // medicamentos que vencerán en un plazo menor a 2 meses
         LocalDate hoy = LocalDate.now();
         LocalDate meses2 = hoy.plusMonths(2);
 

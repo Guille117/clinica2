@@ -70,8 +70,6 @@ public class MedicoServicio implements IMedicoService{
         Especialidad esp = er.getOne(dtoMedico.getIdEspecialidad());
         med.setEspecialidad(esp);
        }
-
-       validMed.forEach(v -> v.validarMed(med));
        med.setP(pMed);
        mr.save(med);
     }

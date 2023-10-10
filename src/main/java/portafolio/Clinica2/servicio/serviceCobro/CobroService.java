@@ -49,28 +49,27 @@ public class CobroService implements ICobroService{
     @Transactional
     public Long preRegistro(DtoCobroIngreso dtoCobro) {
         validadoresCobro.forEach(v -> v.validarCobro(dtoCobro));        // validamos que haya una consulta o una lista de medicamentos
+        
         List<MedicamentoVendido> medicamentosPivote = null;
-        Consulta consultaPivote = null;
+        
+        Consulta consultaPivote = (dtoCobro.getConsulta() != null) ? 
+        servicioConsulta.getOneOriginal(dtoCobro.getConsulta().getIdConsulta()) : null;
+        
         Cobro cobroPivote = new Cobro();
         Double total = 0d;
         Integer cantidadMedicamentos = 0;
         
         // validamos los medicamentos
         if(dtoCobro.getMedicamentoVenta() != null){
+            // unificamos los medicamentos que tengan el mismo id teniendo una lista sin medicamentos repetidos
             medicamentosPivote = UMedicamentosRepetidos.unificarMedicamentos(dtoCobro.getMedicamentoVenta());
+            
             for(MedicamentoVendido m: medicamentosPivote){
-                validadoresVentaMedicamento.forEach(v -> v.validarVentaMedicamento(m));
-                cantidadMedicamentos += m.getCantidad();
+                 // verificamos que tengamos medicamentos en farmacia
+                validadoresVentaMedicamento.forEach(v -> v.validarVentaMedicamento(m));     
+                cantidadMedicamentos += m.getCantidad();        // sumamos al contador
             }
         }
-        // validamos la consulta
-        if(dtoCobro.getConsulta() != null){
-            consultaPivote = servicioConsulta.getOneOriginal(dtoCobro.getConsulta().getIdConsulta());
-            if(consultaPivote.isPagado()){
-                throw new ValidationException("Esta consulta ya esta pagada");
-            }
-        }
-
 
         this.Sa(cobroPivote);       // persistimos el primer cobro sin elementos, unicamente para generar el id;
         Long idGeneral = cobroPivote.getIdCobro();   
@@ -96,7 +95,6 @@ public class CobroService implements ICobroService{
             cobroPivote.setNombrePaciente(pacientePivote.getP().nombreCompleto());        // agregamos el nombre del paciente en caso no exista consulta
             cobroPivote.setIdPaciente(pacientePivote.getIdPaciente());
         }
-
         cobroPivote.setTotal(total);
         this.Sa(cobroPivote);
         return cobroPivote.getIdCobro();
@@ -142,17 +140,31 @@ public class CobroService implements ICobroService{
     }
 
     @Override
+    public double mostrarTotalVentaPorDia(String fecha){
+        List<DtoMostrarCobro> cobros = this.mostrarPorFecha(fecha);
+        Double total = 0d;
+        for(DtoMostrarCobro mc: cobros){
+            total += mc.getTotal();
+        }
+        return total;
+    }
+
+    @Override
     @Transactional
     public void De(Long id) {
         Cobro cobro = this.getOne(id);
         
-        mvs.eliminarPorIdCobroGeneral(id);
+        if(LocalDate.now().isAfter(cobro.getFechaCobro().plusDays(5))){
+            mvs.eliminarPorIdCobroGeneral(id);      // borramos medicamentos vendidos
 
-        cr.deleteById(id);
+            cr.deleteById(id);      // eliminamos el cobro
 
-        if(cobro.getConsulta() != null){
-        servicioConsulta.De(cobro.getConsulta().getIdConsulta());          
+            servicioConsulta.De(cobro.getConsulta().getIdConsulta());         // eliminamos la consulta 
+        }else{
+            throw new ValidationException("Se podrá eliminar 5 dias después de la fecha de cobro");
         }
+        
+        
     }
 
     @Override
@@ -172,18 +184,21 @@ public class CobroService implements ICobroService{
             mvs.eliminarPorIdCobroGeneral(idCobro);     
             }
 
-            if(cobro.getConsulta() != null){     // reestablecemos la consulta
+            if(cobro.getConsulta() != null){     // reestablecemos la consulta indicando que no se ha pagado
                 Consulta consulta = servicioConsulta.getOneOriginal(cobro.getConsulta().getIdConsulta());
                 consulta.setPagado(false);
                 consulta.setFechaPago(null);
-                servicioConsulta.Sa(consulta);
+                //servicioConsulta.Sa(consulta);
             }
 
             cr.deleteById(idCobro);
         }else{
-            throw new ValidationException("Se podrá anular un cobro unicamento en plazo de 4 días");
+            throw new ValidationException("Se podrá anular un cobro unicamento en un plazo de 4 días");
         }
     }
+
+
+
 
     public List<DtoMostrarCobro> convertirADtoMostrarCobro(List<Cobro> cobros){
         List<DtoMostrarCobro> cobrosMostrar = new ArrayList<>();
